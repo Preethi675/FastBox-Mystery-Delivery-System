@@ -1,0 +1,109 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>FastBox Control Center</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">FB</div>
+      <div><b>FastBox</b><span>Delivery Control</span></div>
+    </div>
+    <nav>
+      <button class="nav-item active" data-section="dashboard">⌂ <span>Dashboard</span></button>
+      <button class="nav-item" data-section="operations">◈ <span>Operations</span></button>
+      <button class="nav-item" data-section="agents">◉ <span>Agents</span></button>
+      <button class="nav-item" data-section="packages">▣ <span>Packages</span></button>
+      <button class="nav-item" data-section="reports">▤ <span>Reports</span></button>
+    </nav>
+    <div class="sidebar-bottom">
+      <div class="status-dot"></div>
+      <div><b>System Online</b><small>Localhost • Port 5000</small></div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div>
+        <div class="eyebrow">LOGISTICS / LIVE OPERATIONS</div>
+        <h1 id="page-title">Control Center</h1>
+      </div>
+      <div class="top-actions">
+        <label class="select-wrap">
+          <span>CASE</span>
+          <select id="caseSelect"></select>
+        </label>
+        <label class="upload-btn">＋ Upload JSON
+          <input type="file" id="fileInput" accept=".json">
+        </label>
+        <button class="run-btn" id="runBtn">▶ Run Simulation</button>
+      </div>
+    </header>
+
+    <section id="dashboard" class="section active">
+      <div class="hero">
+        <div>
+          <span class="pill">REAL-TIME SIMULATION</span>
+          <h2>Track every delivery<br><em>from warehouse to door.</em></h2>
+          <p>FastBox automatically assigns packages to the nearest delivery agent and simulates the complete route.</p>
+        </div>
+        <div class="hero-art">
+          <div class="route-line"></div><div class="map-pin pin-a">A</div><div class="map-pin pin-w">W</div><div class="map-pin pin-d">D</div>
+        </div>
+      </div>
+
+      <div class="stat-grid">
+        <div class="stat-card"><span>PACKAGES</span><strong id="statPackages">—</strong><small>Total in selected case</small></div>
+        <div class="stat-card"><span>DELIVERED</span><strong id="statDelivered">—</strong><small id="deliveryRate">Waiting to run</small></div>
+        <div class="stat-card"><span>AGENTS</span><strong id="statAgents">—</strong><small>Active delivery agents</small></div>
+        <div class="stat-card"><span>TOTAL DISTANCE</span><strong id="statDistance">—</strong><small>Euclidean route distance</small></div>
+      </div>
+
+      <div class="two-col">
+        <div class="panel">
+          <div class="panel-head"><div><span class="eyebrow">LIVE FEED</span><h3>Delivery activity</h3></div><span class="live-badge"><i></i> LIVE</span></div>
+          <div id="eventFeed" class="event-feed"><div class="empty">Run a simulation to see live delivery events.</div></div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><div><span class="eyebrow">PERFORMANCE</span><h3>Agent overview</h3></div></div>
+          <div id="agentMini" class="agent-mini"><div class="empty">No results yet.</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="operations" class="section">
+      <div class="section-title"><div><span class="eyebrow">OPERATIONS</span><h2>Route simulation</h2><p>Agent → Warehouse → Destination</p></div></div>
+      <div class="panel">
+        <div class="route-board" id="routeBoard"><div class="empty">Run the simulation to populate route events.</div></div>
+      </div>
+    </section>
+
+    <section id="agents" class="section">
+      <div class="section-title"><div><span class="eyebrow">AGENT FLEET</span><h2>Agent performance</h2><p>Distance and delivery efficiency for every agent</p></div></div>
+      <div class="panel table-panel"><table><thead><tr><th>AGENT</th><th>PACKAGES</th><th>TOTAL DISTANCE</th><th>EFFICIENCY</th><th>FINAL LOCATION</th></tr></thead><tbody id="agentsTable"></tbody></table></div>
+    </section>
+
+    <section id="packages" class="section">
+      <div class="section-title"><div><span class="eyebrow">PACKAGE FLOW</span><h2>Package assignments</h2><p>Nearest-agent assignment and delivery status</p></div></div>
+      <div class="panel table-panel"><table><thead><tr><th>PACKAGE</th><th>AGENT</th><th>WAREHOUSE</th><th>DESTINATION</th><th>STATUS</th></tr></thead><tbody id="packagesTable"></tbody></table></div>
+    </section>
+
+    <section id="reports" class="section">
+      <div class="section-title"><div><span class="eyebrow">EXPORT CENTER</span><h2>Reports</h2><p>Download the generated simulation results</p></div></div>
+      <div class="report-cards">
+        <div class="download-card"><div class="file-icon">JSON</div><h3>Full Simulation Report</h3><p>Complete summary, assignments, agent metrics and event history.</p><a href="/api/report.json">Download report.json</a></div>
+        <div class="download-card"><div class="file-icon">CSV</div><h3>Top Performer</h3><p>CSV export containing the agent selected by lowest distance per delivery.</p><a href="/api/top_performer.csv">Download CSV</a></div>
+      </div>
+    </section>
+
+    <div id="toast" class="toast"></div>
+  </main>
+</div>
+<script src="/static/app.js"></script>
+</body>
+</html>
